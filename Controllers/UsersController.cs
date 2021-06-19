@@ -53,10 +53,11 @@ namespace cdc.Controllers
 
         [Authorize]
         [HttpPost("revoke-token")]
-        public IActionResult RevokeToken([FromBody] RevokeTokenRequest model)
+        public IActionResult RevokeToken()
         {
             // accept token from request body or cookie
-            var token = model.Token;
+            var token = Request.Cookies["refreshToken"];
+
 
             if (string.IsNullOrEmpty(token))
                 return BadRequest(new { message = "Token is required" });
