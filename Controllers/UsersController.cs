@@ -51,6 +51,7 @@ namespace cdc.Controllers
             return Ok(response);
         }
 
+        [Authorize]
         [HttpPost("revoke-token")]
         public IActionResult RevokeToken([FromBody] RevokeTokenRequest model)
         {
@@ -79,7 +80,7 @@ namespace cdc.Controllers
             return Ok(_userService.GetById(id));
         }
 
-
+        [Authorize]
         [HttpGet]
         public IActionResult GetAll()
         {
