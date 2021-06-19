@@ -56,7 +56,7 @@ namespace cdc.Controllers
         public IActionResult RevokeToken([FromBody] RevokeTokenRequest model)
         {
             // accept token from request body or cookie
-            var token = model.Token ?? Request.Cookies["refreshToken"];
+            var token = model.Token;
 
             if (string.IsNullOrEmpty(token))
                 return BadRequest(new { message = "Token is required" });
