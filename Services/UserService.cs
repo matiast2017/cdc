@@ -40,7 +40,9 @@ namespace cdc.Services
 
         public AuthenticateResponse Authenticate(AuthenticateRequest model, string ipAddress)
         {
-            var user = _context.Users.SingleOrDefault(x => (x.Username == model.Username || x.Email == model.Username) && x.Password == model.Password);
+
+            var username = model.Username.ToLower();
+            var user = _context.Users.SingleOrDefault(x => (x.Username.ToLower() == username || x.Email.ToLower() == username) && x.Password == model.Password);
 
             // return null if user not found
             if (user == null) return null;
