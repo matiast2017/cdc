@@ -22,6 +22,7 @@ namespace cdc.Services
         IEnumerable<User> GetAll();
         User GetById(int id);
         int CreateUser(CreateUserRequest model);
+        void UpdateUser(int id, UpdateUserRequest model);
     }
 
     public class UserService : IUserService
@@ -39,7 +40,7 @@ namespace cdc.Services
 
         public AuthenticateResponse Authenticate(AuthenticateRequest model, string ipAddress)
         {
-            var user = _context.Users.SingleOrDefault(x => x.Username == model.Username && x.Password == model.Password);
+            var user = _context.Users.SingleOrDefault(x => (x.Username == model.Username || x.Email == model.Username) && x.Password == model.Password);
 
             // return null if user not found
             if (user == null) return null;
@@ -124,6 +125,7 @@ namespace cdc.Services
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
+                    new Claim("Id", user.Id.ToString()),
                     new Claim(ClaimTypes.Name, user.Id.ToString())
                 }),
                 Expires = DateTime.UtcNow.AddMinutes(15),
@@ -153,8 +155,8 @@ namespace cdc.Services
         {
             var user = new User()
             {
-                FirstName = model.FirstName,
-                LastName = model.LastName,
+                Name = model.Name,
+                Email = model.Email,
                 Username = model.Username,
                 Password = model.Password
             };
@@ -162,6 +164,17 @@ namespace cdc.Services
             _context.SaveChanges();
 
             return user.Id;
+        }
+
+        public void UpdateUser(int id, UpdateUserRequest model)
+        {
+            var user = _context.Users.Single(x => x.Id == id);
+
+            user.Name = model.Name;
+            user.Email = model.Email;
+            user.Username = model.Username;
+
+            _context.SaveChanges();
         }
     }
 }

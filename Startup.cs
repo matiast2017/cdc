@@ -71,9 +71,6 @@ namespace cdc
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DataContext context)
         {
-            context.Users.Add(new User { FirstName = "Test", LastName = "User", Username = "test", Password = "test" });
-            context.SaveChanges();
-
             app.UseRouting();
 
             // global cors policy

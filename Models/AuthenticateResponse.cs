@@ -10,9 +10,10 @@ namespace cdc.Models
     public class AuthenticateResponse
     {
         public int Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
         public string Username { get; set; }
+        public string Image { get; set; }
         public string JwtToken { get; set; }
 
         [JsonIgnore] // refresh token is returned in http only cookie
@@ -21,8 +22,9 @@ namespace cdc.Models
         public AuthenticateResponse(User user, string jwtToken, string refreshToken)
         {
             Id = user.Id;
-            FirstName = user.FirstName;
-            LastName = user.LastName;
+            Name = user.Name;
+            Email = user.Email;
+            Image = user.Image;
             Username = user.Username;
             JwtToken = jwtToken;
             RefreshToken = refreshToken;

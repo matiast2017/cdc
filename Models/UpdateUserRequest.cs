@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace cdc.Models
 {
-    public class CreateUserRequest
+    public class UpdateUserRequest
     {
         [Required]
         public string Name { get; set; }
@@ -16,12 +16,5 @@ namespace cdc.Models
 
         [Required]
         public string Username { get; set; }
-
-        [Required]
-        public string Password { get; set; }
-
-        [Required]
-        [Compare("Password")]
-        public string ConfirmPassword { get; set; }
     }
 }

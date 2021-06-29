@@ -1,4 +1,5 @@
 ﻿using cdc.Entities;
+using cdc.Helpers;
 using cdc.Models;
 using cdc.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -13,7 +14,7 @@ namespace cdc.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class UsersController : ApiBaseController
     {
         private IUserService _userService;
 
@@ -79,6 +80,18 @@ namespace cdc.Controllers
             var id = _userService.CreateUser(model);
 
             return Ok(_userService.GetById(id));
+        }
+
+        [Authorize]
+        [HttpPut]
+        public IActionResult Update([FromBody] UpdateUserRequest model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            _userService.UpdateUser(GetId(),model);
+
+            return Ok();
         }
 
         [Authorize]
