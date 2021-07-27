@@ -7,7 +7,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace cdc.Controllers
@@ -82,6 +84,7 @@ namespace cdc.Controllers
             return Ok(_userService.GetById(id));
         }
 
+
         [Authorize]
         [HttpPut]
         public IActionResult Update([FromBody] UpdateUserRequest model)
@@ -89,10 +92,49 @@ namespace cdc.Controllers
             if (!ModelState.IsValid)
                 return BadRequest();
 
-            _userService.UpdateUser(GetId(),model);
+            _userService.UpdateUser(GetId(), model);
 
             return Ok();
         }
+
+        [Authorize]
+        [HttpPost("updatepassword")]
+        public IActionResult ChangePassword([FromBody] ChangePasswordRequest model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            _userService.ChangePassword(model, GetId());
+
+            return Ok();
+        }
+
+        [Authorize]
+        [HttpPost("updateimage")]
+        public IActionResult UpdateImage()
+        {
+
+            var file = Request.Form.Files[0];
+            var folderName = Path.Combine("Resources", "Images");
+            var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+            if (file.Length > 0)
+            {
+                var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                var fullPath = Path.Combine(pathToSave, fileName);
+                var path = Path.Combine(folderName, fileName);
+                using (var stream = new FileStream(fullPath, FileMode.Create))
+                {
+                    file.CopyTo(stream);
+                    _userService.UpdateImage(path, GetId());
+                }
+                return Ok(new { path });
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
 
         [Authorize]
         [HttpGet]

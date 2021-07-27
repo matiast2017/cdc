@@ -23,6 +23,8 @@ namespace cdc.Services
         User GetById(int id);
         int CreateUser(CreateUserRequest model);
         void UpdateUser(int id, UpdateUserRequest model);
+        void ChangePassword(ChangePasswordRequest model, int id);
+        void UpdateImage(string path, int id);
     }
 
     public class UserService : IUserService
@@ -170,11 +172,32 @@ namespace cdc.Services
 
         public void UpdateUser(int id, UpdateUserRequest model)
         {
-            var user = _context.Users.Single(x => x.Id == id);
+            var user = GetById(id);
 
             user.Name = model.Name;
             user.Email = model.Email;
             user.Username = model.Username;
+
+            _context.SaveChanges();
+        }
+
+        public void ChangePassword(ChangePasswordRequest model, int id)
+        {
+            var user = GetById(id);
+
+            if (model.CurrentPassword == user.Password)
+                user.Password = model.Password;
+            else
+                throw new Exception("Current password is invalid");
+
+            _context.SaveChanges();
+        }
+
+        public void UpdateImage(string path, int id)
+        {
+            var user = GetById(id);
+
+            user.Image = path;
 
             _context.SaveChanges();
         }

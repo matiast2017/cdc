@@ -25,11 +25,14 @@
 		{
 			"name": "Login",
 			"request": {
+				"auth": {
+					"type": "noauth"
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"username\": \"test\",\r\n    \"password\": \"test\"\r\n}",
+					"raw": "{\r\n    \"username\": \"tete\",\r\n    \"password\": \"qwe\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -52,6 +55,9 @@
 		{
 			"name": "RefreshToken",
 			"request": {
+				"auth": {
+					"type": "noauth"
+				},
 				"method": "POST",
 				"header": [],
 				"url": {
@@ -70,6 +76,16 @@
 		{
 			"name": "GetUsers",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjE1IiwidW5pcXVlX25hbWUiOiIxNSIsIm5iZiI6MTYyNzM0NzUzNywiZXhwIjoxNjI3MzQ4NDM3LCJpYXQiOjE2MjczNDc1Mzd9.G0BFrNe1-Xf4R9bLUeK-dLrJ8_sQFfXojWCD2hKf5pg",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
 				"url": {
@@ -87,16 +103,19 @@
 		{
 			"name": "GetRefreshTokens",
 			"request": {
+				"auth": {
+					"type": "noauth"
+				},
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{URL}}/users/1/refresh-tokens",
+					"raw": "{{URL}}/users/15/refresh-tokens",
 					"host": [
 						"{{URL}}"
 					],
 					"path": [
 						"users",
-						"1",
+						"15",
 						"refresh-tokens"
 					]
 				}
@@ -106,6 +125,9 @@
 		{
 			"name": "RevokeToken",
 			"request": {
+				"auth": {
+					"type": "noauth"
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
@@ -131,13 +153,16 @@
 			"response": []
 		},
 		{
-			"name": "New Request",
+			"name": "Create User",
 			"request": {
+				"auth": {
+					"type": "noauth"
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"firstname\": \"test\",\r\n    \"lastname\": \"test\"\r\n    \"username\": \"test\"\r\n    \"password\": \"test\"\r\n    \"confirmpassword\": \"test\"\r\n}",
+					"raw": "{\r\n    \"name\": \"tutu\",\r\n    \"email\": \"tutu\",\r\n    \"username\": \"tutu\",\r\n    \"password\": \"asd\",\r\n    \"confirmpassword\": \"asd\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -155,11 +180,119 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "UpdateUser",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjE1IiwidW5pcXVlX25hbWUiOiIxNSIsIm5iZiI6MTYyNzM0NzUzNywiZXhwIjoxNjI3MzQ4NDM3LCJpYXQiOjE2MjczNDc1Mzd9.G0BFrNe1-Xf4R9bLUeK-dLrJ8_sQFfXojWCD2hKf5pg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"tutu\",\r\n    \"email\": \"tete\",\r\n    \"username\": \"titi\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/users",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ChangePassword",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjE1IiwidW5pcXVlX25hbWUiOiIxNSIsIm5iZiI6MTYyNzM0NzUzNywiZXhwIjoxNjI3MzQ4NDM3LCJpYXQiOjE2MjczNDc1Mzd9.G0BFrNe1-Xf4R9bLUeK-dLrJ8_sQFfXojWCD2hKf5pg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"currentpassword\": \"asd\",\r\n    \"password\": \"qwe\",\r\n    \"confirmpassword\": \"qwe\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/users/updatepassword",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"users",
+						"updatepassword"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateImage",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjE1IiwidW5pcXVlX25hbWUiOiIxNSIsIm5iZiI6MTYyNzM0NzYyMiwiZXhwIjoxNjI3MzQ4NTIyLCJpYXQiOjE2MjczNDc2MjJ9.fqUaQ_HhIvy6YFWpNHw77S-CWSp8bV6gMdM-j-fXLXE",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/Matias/Desktop/DNI1.jpeg"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{URL}}/users/updateimage",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"users",
+						"updateimage"
+					]
+				}
+			},
+			"response": []
 		}
 	],
-	"auth": {
-		"type": "bearer"
-	},
 	"event": [
 		{
 			"listen": "prerequest",
@@ -183,7 +316,12 @@
 	"variable": [
 		{
 			"key": "URL",
-			"value": "https://localhost:44371"
+			"value": "http://cdc.somee.com"
+		},
+		{
+			"key": "URL",
+			"value": "https://localhost:44371",
+			"disabled": true
 		}
 	]
 }
